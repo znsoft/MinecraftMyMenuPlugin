@@ -5,16 +5,16 @@ Source for Skepter's SQLite API
 
 Simply put, my SQLite API is designed to help people who require SQLite for databases when creating bukkit plugins. It is created for support for that only, but should be compatible with other services as required.
 
-# The following is only for BUKKIT
+The following is only for BUKKIT
 To start off (with eclipse), download the files (com.droppages.Skepter.SQL) and add it to your JavaProject. From there, you can continue your project. It is crutial to add these lines of code into your Main class:
 
-/*
- * Of course, everything can be adjusted where necessary.
- */
-public SQLite sqlite;
+	/*
+ 	* Of course, everything can be adjusted where necessary.
+ 	*/
+	public SQLite sqlite;
 
-public void sqlConnection() {
-//The second argument MUST be the name of your plugin
+	public void sqlConnection() {
+	//The second argument MUST be the name of your plugin
 		sqlite = new SQLite(log, "SQLiteTestPlugin", getDataFolder().getAbsolutePath(), "datafilename");
 		try {
 		sqlite.open();
@@ -36,8 +36,9 @@ public void sqlConnection() {
 	}
 
 
-//This goes in your onEnable();
-sqlConnection();
+This goes in your onEnable();
+
+	sqlConnection();
     	try {
 			sqlTableCheck();
 		} catch (SQLException e) {
@@ -45,5 +46,6 @@ sqlConnection();
 		}
 
 
-//This goes in your onDisable();
-sqlite.close();
+This goes in your onDisable();
+	
+	sqlite.close();
