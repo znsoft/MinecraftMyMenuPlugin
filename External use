@@ -1,0 +1,7 @@
+To use my SQLite API for use other than plugins, you have to use the org.sqlite.JBDC library in your external jars.
+
+https://bitbucket.org/xerial/sqlite-jdbc/downloads
+
+Simply, download the .jar file from the link above, then go to:
+Properties > Build Path > Add External Jar
+then add the file you downloaded :)
