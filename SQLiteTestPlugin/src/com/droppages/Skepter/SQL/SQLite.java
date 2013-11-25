@@ -14,6 +14,10 @@ public class SQLite {
 	private Connection Connection;
 
 	public SQLite(File DatabaseFile) {
+		if(!DatabaseFile.getParentFile().exists()) {
+			DatabaseFile.getParentFile().mkdir();
+		}
+
 		DatabaseURL = "jdbc:sqlite:" + DatabaseFile.getAbsolutePath();
 
 		try {
