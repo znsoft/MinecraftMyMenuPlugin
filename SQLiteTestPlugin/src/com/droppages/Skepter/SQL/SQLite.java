@@ -64,6 +64,7 @@ public class SQLite {
 		ResultSet Result = null;
 		try {
 			Result = Statement.executeQuery(Query);
+			return Result;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +73,7 @@ public class SQLite {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return Result;
+		return null;
 	}
 
 	public PreparedStatement prepareStatement(String Query) {
