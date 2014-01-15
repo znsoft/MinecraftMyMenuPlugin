@@ -104,7 +104,11 @@ public class SQLite {
 
 	public String resultToString(ResultSet result, String data) {
 		try {
-			return result.getString(data);
+			if(result.next()) {
+				return result.getString(data);
+			} else {
+				return null;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
