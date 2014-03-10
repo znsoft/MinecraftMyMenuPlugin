@@ -9,11 +9,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class SQLite {
+public class SQL {
 	private String DatabaseURL;
 	private Connection Connection;
 
-	public SQLite(File DatabaseFile) {
+	public SQL(File DatabaseFile) {
 		if(!DatabaseFile.getParentFile().exists()) {
 			DatabaseFile.getParentFile().mkdir();
 		}
@@ -22,6 +22,17 @@ public class SQLite {
 
 		try {
 			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e) {
+			System.out.println("No SQLite JDBC Driver available!");
+			e.printStackTrace();
+		}
+	}
+	//XXX Fix this
+	public SQL(String host, String username, String password) {
+		DatabaseURL = "jdbc:mysql://" + host + "/");
+
+		try {
+			Class.forName("org.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			System.out.println("No SQLite JDBC Driver available!");
 			e.printStackTrace();
