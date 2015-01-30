@@ -2,6 +2,8 @@ package com.droppages.Skepter;
 
 import java.io.File;
 import java.util.logging.Logger;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,12 +21,22 @@ public class Main extends JavaPlugin {
 	public SQLite sqlite;
 
     public void onEnable() {
-    	log.info("[SQLite Test Plugin start]");
+    	log.info("SQLite Test Plugin start");
     	File file = new File(getDataFolder(), "file.db");
     	sqlite = new SQLite(file);
     	sqlite.open();
-		sqlite.execute("CREATE TABLE IF NOT EXISTS PlayerTimes (id INT PRIMARY KEY, playername VARCHAR(50), op BOOLEAN);");
+		sqlite.execute("CREATE TABLE IF NOT EXISTS PlayerTimes (id INT PRIMARY KEY, playername , op , privileges , money );");
 		sqlite.execute("INSERT INTO PlayerTimes(playername, op) VALUES('Skepter', 'true');");
+		ResultSet rs = sqlite.executeQuery("select playername from PlayerTimes;");
+		try {
+			rs.next();
+			Object o = rs.getObject(1);
+	    	log.info(o.toString());
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 	public void onDisable() {

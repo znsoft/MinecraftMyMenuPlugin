@@ -9,11 +9,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class SQL {
+public class SQLite {
 	private String DatabaseURL;
 	private Connection Connection;
 
-	public SQL(File DatabaseFile) {
+	public SQLite(File DatabaseFile) {
 		if(!DatabaseFile.getParentFile().exists()) {
 			DatabaseFile.getParentFile().mkdir();
 		}
@@ -28,8 +28,8 @@ public class SQL {
 		}
 	}
 	//XXX Fix this
-	public SQL(String host, String username, String password) {
-		DatabaseURL = "jdbc:mysql://" + host + "/");
+	public SQLite(String host, String username, String password) {
+		DatabaseURL = "jdbc:mysql://" + host + "/";
 
 		try {
 			Class.forName("org.mysql.jdbc.Driver");
