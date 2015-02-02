@@ -1,5 +1,5 @@
-name: SQLiteTestPlugin
-main: com.droppages.Skepter.Main
-author: Skepter
+name: znmine
+main: ru.znmine.Main
+author: Skepter&znsoft
 version: 1.0
-description: Testing :)
+description: znmine srv Testing :)
