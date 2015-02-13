@@ -1,0 +1,5 @@
+name: SQLiteTestPlugin
+main: com.droppages.Skepter.Main
+author: Skepter
+version: 1.0
+description: Testing :)
