@@ -1,15 +1,20 @@
 package ru.znmine;
 
-import java.util.Arrays;
+//import java.util.ArrayList;
+//import java.util.Arrays;
+import java.util.HashMap;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+//import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+//import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -20,9 +25,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.droppages.Skepter.SQL.SQLite;
 
 public class EvntPlay implements Listener {
+	public Logger log = Logger.getLogger("Minecraft");	
 	public SQLite sqlite;
 	private Main plugin;
-	public ItemStack is;
+	
+	
+	public HashMap<Player, СостояниеИгрока> состояниеИгрока = new HashMap<Player, СостояниеИгрока>(); 
+	
 	public EvntPlay(Main plugin) {
 		this.plugin = plugin;
 		this.sqlite = plugin.sqlite;
@@ -31,6 +40,7 @@ public class EvntPlay implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player p = event.getPlayer();
+		СостояниеИгрока ИгрокСостояние = new СостояниеИгрока("Меню игры","5 руб. на счету");
 //		try {
 //			sqlite.execute("insert into Players (playername,ip,money) VALUES('"
 //					+ p.getName().replace('\'', ' ')
@@ -41,23 +51,25 @@ public class EvntPlay implements Listener {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-		 is = new ItemStack(Material.APPLE, 1);
-		 ItemMeta im = is.getItemMeta();
-		 im.setDisplayName("dddname");
-		 im.setLore(Arrays.asList("lore"));
-		 
-		 is.setItemMeta(im);
-		 PlayerInventory pin = p.getInventory();
-		 if(pin.contains(is))pin.remove(is);
-		 pin.setHeldItemSlot(8);
-		 pin.addItem(is);
-
+		
+		ДобавитьМенюВИнвентарь(p,ИгрокСостояние.ВещьМеню);
+			состояниеИгрока.put(p, ИгрокСостояние);
 	}
+	
+	
+
+	private void ДобавитьМенюВИнвентарь(Player p, ItemStack вещьМеню) {
+		 PlayerInventory pin = p.getInventory();
+		 if(pin.contains(вещьМеню))pin.remove(вещьМеню);
+		 pin.setHeldItemSlot(1);
+		 pin.setItem(9,вещьМеню);	// TODO Auto-generated method stub
+	}
+
+
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
-		// event.setQuitMessage(event.getPlayer().getName() +
-		// " покинул сервер");
+		состояниеИгрока.remove(event.getPlayer());
 	}
 
 	@EventHandler
@@ -68,39 +80,40 @@ public class EvntPlay implements Listener {
 		// + event.getBlock().getLocation());
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInventoryOpen(InventoryOpenEvent event) {
-		// if (event.getInventory().getType() != InventoryType.CHEST)  return;
-	
+
 	}
 
-
-
+   
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		ItemStack cur = event.getCursor();
-		if (cur == null)return;
-		//p.sendMessage(event.getClick().name());
-		ItemMeta im = cur.getItemMeta();
-		if (im == null)return;
-		if (!(event.getWhoClicked() instanceof Player))
-			return;
+		//log.info("1");
+		//log.info(event.getInventory().getType().name());
+		//if(event.getInventory().getType() != InventoryType.CRAFTING )return;
+		//log.info("1.0");
+		if (!(event.getWhoClicked() instanceof Player))			return;
+		//log.info("1.1");
 		final Player p = (Player) event.getWhoClicked();
-		
-		p.sendMessage(im.getDisplayName());
-		if( !im.getDisplayName().matches("dddname"))return;
+		if (p == null)return;
+		//log.info("2");
+		ItemMeta im = event.getCursor().getItemMeta();
+		im = im==null?event.getCurrentItem().getItemMeta():im;
+//		p.sendMessage(im.getDisplayName());		
+		if (im == null)return;
+		final СостояниеИгрока СИ = состояниеИгрока.get(p);
+		if(!im.equals(СИ.ВещьМеню.getItemMeta()))return;
+		//if( !im.getDisplayName().matches("dddname"))return;
+		//log.info("3");
+		event.setCancelled(true);
 		//int slot = event.getRawSlot();
 		//if(slot != 0)return;
-		p.sendMessage("click event");
-		//Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-          //  public void run() {
-         
-            //}
+		//p.sendMessage("click event");
          Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
              public void run() {
             	 p.closeInventory();
-            	 //plugin.menu.open(p);
+            	 plugin.menu.open(p);
              }
          }, 1);
 		
