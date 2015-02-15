@@ -27,18 +27,18 @@ public class Main extends JavaPlugin  {
 				new IconMenu.OptionClickEventHandler() {
 					@Override
 					public void onOptionClick(IconMenu.OptionClickEvent event) {
+						
+						event.getPlayer().performCommand("spawn");
 						event.getPlayer().sendMessage("You have chosen " + event.getName());
 						event.setWillClose(true);
 					}
 				}, this)
-				.setOption(3, new ItemStack(Material.APPLE, 1), "Food",
-						"The food is delicious")
-				.setOption(4, new ItemStack(Material.IRON_SWORD, 1), "Weapon",
-						"Weapons are for awesome people")
-				.setOption(5, new ItemStack(Material.EMERALD, 1), "Money",
-						"Money brings happiness");
-		//getServer().getPluginManager().registerEvents(menu, this);
+				.setOption(3, new ItemStack(Material.APPLE, 1), "Food",	"The food is delicious")
+				.setOption(4, new ItemStack(Material.IRON_SWORD, 1), "Weapon",	"Weapons are for awesome people")
+				.setOption(4, new ItemStack(Material.DIAMOND, 1), "Weapon",	"Weapons are for awesome people")
+				.setOption(5, new ItemStack(Material.EMERALD, 1), "Money",		"Money brings happiness");
 		getServer().getPluginManager().registerEvents(new EvntPlay(this), this);
+		getServer().getPluginManager().registerEvents(menu, this);
 
 	}
 

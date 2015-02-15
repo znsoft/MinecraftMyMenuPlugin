@@ -12,7 +12,7 @@ public class СостояниеИгрока {
 	public boolean ВМиниигре;
 	
 	public СостояниеИгрока(String ИмяВещьМеню, String ВтороеИмя){
-		 ВещьМеню = new ItemStack(Material.APPLE, 1);
+		 ВещьМеню = new ItemStack(Material.WATCH, 1);
 		 this.ИмяВещьМеню = ИмяВещьМеню;
 		 ItemMeta im = ВещьМеню.getItemMeta();
 		 im.setDisplayName(ИмяВещьМеню);

@@ -1,6 +1,6 @@
 package ru.znmine;
 import java.util.Arrays;
-
+//import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
  
 public class IconMenu implements Listener {
- 
     private String name;
     private int size;
     private OptionClickEventHandler handler;
@@ -66,11 +65,7 @@ public class IconMenu implements Listener {
                 handler.onOptionClick(e);
                 if (e.willClose()) {
                     final Player p = (Player)event.getWhoClicked();
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                        public void run() {
-                            p.closeInventory();
-                        }
-                    }, 1);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() { public void run() { p.closeInventory();  }  }, 1);
                 }
                 if (e.willDestroy()) {
                     destroy();
