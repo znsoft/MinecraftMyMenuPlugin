@@ -62,6 +62,7 @@ public class EvntPlay implements Listener {
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
+		
 		// Bukkit.getServer().broadcastMessage(
 		// "Player " + event.getPlayer().getName() + " placed "
 		// + event.getBlock().getType() + " at "
@@ -73,6 +74,7 @@ public class EvntPlay implements Listener {
 
 	}
 
+	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 		if (!(event.getWhoClicked() instanceof Player))			return;
