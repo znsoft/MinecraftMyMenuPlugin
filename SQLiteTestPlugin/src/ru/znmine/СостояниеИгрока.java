@@ -21,7 +21,6 @@ public class СостояниеИгрока {
 		 im.setDisplayName(ИмяВещьМеню);
 		 im.setLore(Arrays.asList(ВтороеИмя));
 		 ВещьМеню.setItemMeta(im);
-		
 	}
 	
 public class МоиИконки{
