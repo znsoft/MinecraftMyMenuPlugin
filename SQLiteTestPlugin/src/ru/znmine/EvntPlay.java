@@ -19,21 +19,22 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.droppages.Skepter.SQL.SQLite;
 
 public class EvntPlay implements Listener {
-	public Logger log = Logger.getLogger("Minecraft");	
-	public SQLite sqlite;
+	Logger log = Logger.getLogger("Minecraft");	
+	public SQLite sqlite;//private needed
 	private Main plugin;
-	
-	public HashMap<Player, СостояниеИгрока> состояниеИгрока = new HashMap<Player, СостояниеИгрока>(); 
+	private HashMap<Player, СостояниеИгрока> состояниеИгрока;//new HashMap<Player, СостояниеИгрока>(); 
 	
 	public EvntPlay(Main plugin) {
 		this.plugin = plugin;
 		this.sqlite = plugin.sqlite;
+		this.состояниеИгрока = plugin.состояниеИгрока;
 	}
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player p = event.getPlayer();
-		СостояниеИгрока ИгрокСостояние = new СостояниеИгрока("Меню игры","0 руб. на счету");
+		СостояниеИгрока ИгрокСостояние = (new СостояниеИгрока("Меню игры","0 руб. на счету")).ДобавитьЭлементМеню("name", "/help").ДобавитьЭлементМеню("name2", "help");
+		
 //		try {
 //			sqlite.execute("insert into Players (playername,ip,money) VALUES('"
 //					+ p.getName().replace('\'', ' ')
@@ -45,6 +46,7 @@ public class EvntPlay implements Listener {
 //			e.printStackTrace();
 //		}
 		ДобавитьМенюВИнвентарь(p, ИгрокСостояние.ВещьМеню);
+		
 		состояниеИгрока.put(p, ИгрокСостояние);
 	}
 

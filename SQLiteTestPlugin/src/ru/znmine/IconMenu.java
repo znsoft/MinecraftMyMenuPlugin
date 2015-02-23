@@ -1,6 +1,5 @@
 package ru.znmine;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -14,43 +13,29 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-
-import ru.znmine.СостояниеИгрока.МоиИконки;
  
 public class IconMenu implements Listener {
     private String name;
     private OptionClickEventHandler handler;
-    private Plugin plugin;
+    private Main plugin;
     private HashMap<Player, СостояниеИгрока> состояниеИгрока; 
    
    
-    public IconMenu(String name, OptionClickEventHandler handler, Plugin plugin, EvntPlay ОбработчикСобытий) {
+    public IconMenu(String name, OptionClickEventHandler handler, Main plugin) {
         this.name = name;
         this.handler = handler;
         this.plugin = plugin;
-     	this.состояниеИгрока = ОбработчикСобытий.состояниеИгрока; 
+     	this.состояниеИгрока = plugin.состояниеИгрока; 
     }
    
-    public IconMenu ДобавитьЭлемент(ItemStack icon, String name, String... info) {
-
-    	
-    	return this;
-    }
-   
-   public IconMenu УдаолитьЭлемент(ItemStack icon, String name, String... info) {
-
-    	
-    	return this;
-    }
-        
-    
+  
     public void ПриготовитьМеню(Player player){
     	СостояниеИгрока СИ = состояниеИгрока.get(player);
   	
         Inventory inventory = Bukkit.createInventory(player, СИ.МенюИгрока.size(), name);
         int i = 0;
-        for ( МоиИконки Иконка: СИ.МенюИгрока) {
-                inventory.setItem(i++, Иконка.Иконка);
+        for ( ItemStack Иконка: СИ.МенюИгрока) {
+                inventory.setItem(i++, Иконка);
                 //inventory.addItem(arg0)
         }
         player.openInventory(inventory);	
@@ -147,12 +132,5 @@ public class IconMenu implements Listener {
         }
     }
    
-    public ItemStack setItemNameAndLore(ItemStack item, String name, String[] lore) {
-        ItemMeta im = item.getItemMeta();
-            im.setDisplayName(name);
-            im.setLore(Arrays.asList(lore));
-        item.setItemMeta(im);
-        return item;
-    }
-   
+
 }
