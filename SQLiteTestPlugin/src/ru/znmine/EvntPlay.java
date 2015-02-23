@@ -1,15 +1,15 @@
 package ru.znmine;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -20,7 +20,7 @@ import com.droppages.Skepter.SQL.SQLite;
 
 public class EvntPlay implements Listener {
 	Logger log = Logger.getLogger("Minecraft");	
-	public SQLite sqlite;//private needed
+	private SQLite sqlite;//private needed
 	private Main plugin;
 	private HashMap<Player, СостояниеИгрока> состояниеИгрока;//new HashMap<Player, СостояниеИгрока>(); 
 	
@@ -33,21 +33,45 @@ public class EvntPlay implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player p = event.getPlayer();
-		СостояниеИгрока ИгрокСостояние = (new СостояниеИгрока("Меню игры","0 руб. на счету")).ДобавитьЭлементМеню("name", "/help").ДобавитьЭлементМеню("name2", "help");
-		
-//		try {
-//			sqlite.execute("insert into Players (playername,ip,money) VALUES('"
-//					+ p.getName().replace('\'', ' ')
-//					+ "','"
-//					+ p.getAddress().getAddress().getHostAddress() + "',0);");
-//			plugin.PlayerMoney.put(p, 0.0);
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		ИнициализироватьИгрокавИБД(p);
+		Double Рублей = ЗагрузитьБалансИгрока(p);
+		СостояниеИгрока ИгрокСостояние = (new СостояниеИгрока("Меню игры",Рублей.toString()+ " руб. на счету"))
+				.УстановитьРубли(Рублей)
+				.ДобавитьЭлементМеню("Помощь", "help");
+		ЗагрузитьМенюИгрока(p, ИгрокСостояние);
 		ДобавитьМенюВИнвентарь(p, ИгрокСостояние.ВещьМеню);
-		
 		состояниеИгрока.put(p, ИгрокСостояние);
+	}
+
+	private void ЗагрузитьМенюИгрока(Player p, СостояниеИгрока ИгрокСостояние) {
+		ResultSet rs = sqlite.executeQuery("select command from PlayerMenu where playername = '"+p.getName().replace('\'', ' ')+"';");
+		try {
+			while (rs.next()){
+				ИгрокСостояние.ДобавитьЭлементМеню(rs.getString(1), rs.getString(1));
+			}
+		} catch (SQLException e) {
+		}
+	}
+
+	private Double ЗагрузитьБалансИгрока(Player p) {
+		ResultSet rs = sqlite.executeQuery("select ifnull(money,0.0) from Players where playername = '"+p.getName().replace('\'', ' ')+"';");
+		try {
+			rs.next();
+			return rs.getDouble(1);
+		} catch (SQLException e) {
+			return 0.0;
+		}
+	}
+
+	private void ИнициализироватьИгрокавИБД(Player p) {
+		try {
+			sqlite.execute("insert or ignore into Players (playername,ip) VALUES('"
+					+ p.getName().replace('\'', ' ')
+					+ "','"
+					+ p.getAddress().getAddress().getHostAddress() + "');");
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
 	}
 
 	private void ДобавитьМенюВИнвентарь(Player p, ItemStack вещьМеню) {
@@ -60,20 +84,6 @@ public class EvntPlay implements Listener {
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
 		состояниеИгрока.remove(event.getPlayer());
-	}
-
-	@EventHandler
-	public void onBlockPlace(BlockPlaceEvent event) {
-		
-		// Bukkit.getServer().broadcastMessage(
-		// "Player " + event.getPlayer().getName() + " placed "
-		// + event.getBlock().getType() + " at "
-		// + event.getBlock().getLocation());
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onInventoryOpen(InventoryOpenEvent event) {
-
 	}
 
 	

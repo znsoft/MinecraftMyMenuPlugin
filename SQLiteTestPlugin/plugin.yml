@@ -3,3 +3,7 @@ main: ru.znmine.Main
 author: Skepter&znsoft
 version: 1.0
 description: znmine srv Testing :)
+commands:
+    mymenu:
+        description: This is a demo command.
+        usage: /mymenu add command

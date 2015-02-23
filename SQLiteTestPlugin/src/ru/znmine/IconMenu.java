@@ -31,8 +31,8 @@ public class IconMenu implements Listener {
   
     public void ПриготовитьМеню(Player player){
     	СостояниеИгрока СИ = состояниеИгрока.get(player);
-  	
-        Inventory inventory = Bukkit.createInventory(player, СИ.МенюИгрока.size(), name);
+    	int КоличествоИконок = ((int)(СИ.МенюИгрока.size() / 9) + 1 ) * 9;
+        Inventory inventory = Bukkit.createInventory(player, КоличествоИконок , name);
         int i = 0;
         for ( ItemStack Иконка: СИ.МенюИгрока) {
                 inventory.setItem(i++, Иконка);
