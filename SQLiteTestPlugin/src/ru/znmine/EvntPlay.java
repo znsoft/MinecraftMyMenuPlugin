@@ -9,13 +9,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+
 import com.droppages.Skepter.SQL.SQLite;
 
 public class EvntPlay implements Listener {
@@ -42,7 +45,23 @@ public class EvntPlay implements Listener {
 		ДобавитьМенюВИнвентарь(p, ИгрокСостояние.ВещьМеню);
 		состояниеИгрока.put(p, ИгрокСостояние);
 	}
-
+	
+	@EventHandler
+	public void onDie(PlayerDeathEvent event) {
+		//Player p = event.getEntity();
+		//if(p==null)return;
+		//СостояниеИгрока ИгрокСостояние = состояниеИгрока.get(p);
+		
+	}
+	
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e) {
+        final Player p = e.getPlayer();
+        СостояниеИгрока ИгрокСостояние = состояниеИгрока.get(p);
+        ДобавитьМенюВИнвентарь(p, ИгрокСостояние.ВещьМеню);
+        
+    }
+    
 	private void ЗагрузитьМенюИгрока(Player p, СостояниеИгрока ИгрокСостояние) {
 		ResultSet rs = sqlite.executeQuery("select command from PlayerMenu where playername = '"+p.getName().replace('\'', ' ')+"';");
 		try {
@@ -107,6 +126,8 @@ public class EvntPlay implements Listener {
 		
 	}
 
+	
+	
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent evt) {
 //		Player p = evt.getPlayer();

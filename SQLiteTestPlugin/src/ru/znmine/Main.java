@@ -67,21 +67,21 @@ public class Main extends JavaPlugin  {
 		Player p = (Player)sender;
 		СостояниеИгрока СИ = состояниеИгрока.get(p);
 		String command = cmd.getName().toLowerCase();
-		if (command.equalsIgnoreCase("mymenu")) { // If the player typed /basic then do the following...
+		if (command.equalsIgnoreCase("mymenu")||command.equalsIgnoreCase("менюшка")) { // If the player typed /basic then do the following...
 			if(args.length==0)return false;
 			if(args.length>1 && (args[0].equalsIgnoreCase("add")||args[0].toLowerCase().equalsIgnoreCase("добавить"))){
 				String s = args[1];
 				for(int i = 2;i<=args.length-1;i++)s = s + ' ' + args[i];
 				СИ.ДобавитьЭлементМеню(args[1],s);
 				ДобавитьМенювИБД(args[1], p, s);
-				sender.sendMessage("znmine:Команда добавлена к вам в меню");  
+				sender.sendMessage("Команда добавлена к вам в меню");  
 				}
 			
 			if(args[0].equalsIgnoreCase("remove")||args[0].toLowerCase().equalsIgnoreCase("удалить")){
 				if(args.length==1){
 					УдалитьПоследнийИзИБД(p, СИ);
 					СИ.УдалитьПоследнийЭлементМеню();
-				sender.sendMessage("znmine:Последний элемент меню удален");}
+				sender.sendMessage("Последний элемент меню удален");}
 				if(args.length>1){}
 				}
 						

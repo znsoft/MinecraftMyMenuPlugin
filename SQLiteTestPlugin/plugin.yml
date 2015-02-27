@@ -7,3 +7,6 @@ commands:
     mymenu:
         description: Add or remove commands icon in player menu.
         usage: /mymenu add command params
+    менюшка:
+        description: Добавление или удаление иконок меню
+        usage: /менюшка добавить команда с параметрами        
