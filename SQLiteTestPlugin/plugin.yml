@@ -2,8 +2,8 @@ name: znmine
 main: ru.znmine.Main
 author: Skepter&znsoft
 version: 1.0
-description: znmine srv Testing :)
+description: znmine srv 
 commands:
     mymenu:
-        description: This is a demo command.
-        usage: /mymenu add command
+        description: Add or remove commands icon in player menu.
+        usage: /mymenu add command params

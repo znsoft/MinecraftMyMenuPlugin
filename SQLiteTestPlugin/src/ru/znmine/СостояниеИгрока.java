@@ -25,7 +25,7 @@ public class СостояниеИгрока {
 	}
 	
     public СостояниеИгрока ДобавитьЭлементМеню(String name,String... info ) {
-    	ItemStack i = new ItemStack(МенюИгрока.size() + 100, 1);
+    	ItemStack i = new ItemStack(МенюИгрока.size() + 380, 1);
     	МенюИгрока.add(setItemNameAndLore(i, name, info));
     	return this;
     }

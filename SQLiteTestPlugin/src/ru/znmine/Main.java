@@ -24,6 +24,7 @@ public class Main extends JavaPlugin  {
 	public SQLite sqlite;
 	public IconMenu menu;
 	public HashMap<Player, СостояниеИгрока> состояниеИгрока = new HashMap<Player, СостояниеИгрока>(); 
+	public HashMap<ItemStack, Менюшка> МенюИгрока ; 
 
 
 	public void onEnable() {
@@ -37,9 +38,11 @@ public class Main extends JavaPlugin  {
 				new IconMenu.OptionClickEventHandler() {
 					@Override
 					public void onOptionClick(IconMenu.OptionClickEvent event) {
+						try{
 						String cmd = event.getItemMeta().getLore().get(0);
 						event.getPlayer().performCommand(cmd);
 						event.setWillClose(true);
+						}catch(Exception e){}
 					}
 				}, this);
 		getServer().getPluginManager().registerEvents(ОбработчикСобытий, this);
@@ -65,7 +68,7 @@ public class Main extends JavaPlugin  {
 		СостояниеИгрока СИ = состояниеИгрока.get(p);
 		String command = cmd.getName().toLowerCase();
 		if (command.equalsIgnoreCase("mymenu")) { // If the player typed /basic then do the following...
-			
+			if(args.length==0)return false;
 			if(args.length>1 && (args[0].equalsIgnoreCase("add")||args[0].toLowerCase().equalsIgnoreCase("добавить"))){
 				String s = args[1];
 				for(int i = 2;i<=args.length-1;i++)s = s + ' ' + args[i];
