@@ -23,7 +23,6 @@ public class Main extends JavaPlugin {
 	public SQLite sqlite;
 	public IconMenu menu;
 	public HashMap<Player, СостояниеИгрока> состояниеИгрока = new HashMap<Player, СостояниеИгрока>();
-	public HashMap<ItemStack, Менюшка> МенюИгрока;
 
 	public void onEnable() {
 		File file = new File(getDataFolder(), "znmine.db");
@@ -80,7 +79,8 @@ public class Main extends JavaPlugin {
 		СостояниеИгрока СИ = состояниеИгрока.get(p);
 		String command = cmd.getName().toLowerCase();
 		if (command.equalsIgnoreCase("mymenu")
-				|| command.equalsIgnoreCase("менюшка")) { // If the player typed
+				|| command.equalsIgnoreCase("менюшка")
+			|| command.equalsIgnoreCase("меню")) { // If the player typed
 															// /basic then do
 															// the following...
 			if (args.length == 0)
