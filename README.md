@@ -1,44 +1,32 @@
-SQLiteTestPlugin & IconMenuTestPlugin
-================
+MyMenu - плагин:
+Версия: v0.3
+Данный плагин добавляет возможность любому игроку создать свое (кастомное) меню команд в виде итемов дополнительного инвентаря ()
 
-Source for Skepter's SQLite API
+добавить иконку меню можно командой :
+/mymenu add help 1
+/меню добавить команда параметры команды
+где help 1 это команда которая будет соответствовать этому пункту меню
 
-Simply put, my SQLite API is designed to help people who require SQLite for databases when creating bukkit plugins. It is created for support for that only, but should be compatible with other services as required.
+удалить последнюю в списке иконку можно командой:
+/mymenu remove
+/меню удалить
 
-BUKKIT
-------
-To start off (with eclipse), download the files (com.droppages.Skepter.SQL) and add it to your JavaProject. From there, you can continue your project. It is crutial to add these lines of code into your Main class:
+Требования:
+SQLite - база данных для хранения меню игроков
+Особенности:
+Несколько команд на один пункт меню (итем) разделив их символом ; команды будут выполняться последовательно.
+Плагин создает в основном инвентаре игрока один итем "Часы"
+Дополнительный инвентарь с меню игрока открывается по щелчку на часы
+"Выкинуть" часы можно взяв любой предмет в инвентаре и положить на место часов , в этом случае "новые" часы появятся лишь при переподключении к серверу или смерти игрока (баг/фича)
 
-	public SQLite sqlite;
+Скачать плагин
+Исходный код
 
-This goes in your onEnable();
-
-	File file = new File(getDataFolder().getAbsolutePath(), "file.db");
-	sqlite = new SQLite(file);
-	try {
-	sqlite.open();
-
-
-This goes in your onDisable();
-	
-	sqlite.close();
-
-IconMenu
----------------
-init menu like this:
-		menu = new IconMenu("My Fancy Menu", 9,
-				new IconMenu.OptionClickEventHandler() {
-					@Override
-					public void onOptionClick(IconMenu.OptionClickEvent event) {
-						
-						event.getPlayer().performCommand("spawn");
-						event.getPlayer().sendMessage("You have chosen " + event.getName());
-						event.setWillClose(true);
-					}
-				}, this)
-				.setOption(3, new ItemStack(Material.APPLE, 1), "Food",	"The food is delicious")
-				.setOption(4, new ItemStack(Material.IRON_SWORD, 1), "Weapon",	"Weapons are for awesome people")
-				.setOption(4, new ItemStack(Material.DIAMOND, 1), "Weapon",	"Weapons are for awesome people")
-				.setOption(5, new ItemStack(Material.EMERALD, 1), "Money",		"Money brings happiness");
-		getServer().getPluginManager().registerEvents(new EvntPlay(this), this);//add icon menu initializer listener
-		getServer().getPluginManager().registerEvents(menu, this);// add icon menu listener
+Лог изменений:
+Версия 0.3
+Добавил ввод нескольких команд на один пункт меню (итем) разделив их символом ; команды будут выполняться последовательно.
+например:
+/mymenu add help 1;help 2
+Версия 0.2
+Добавил русскоязычную команду "менюшка"
+исправил баг с исчезновением менюшки из инвентаря при смерти игрока
