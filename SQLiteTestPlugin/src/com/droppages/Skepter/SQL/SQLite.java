@@ -14,7 +14,7 @@ public class SQLite {
 	private Connection Connection;
 
 	public SQLite(File DatabaseFile) {
-		if(!DatabaseFile.getParentFile().exists()) {
+		if (!DatabaseFile.getParentFile().exists()) {
 			DatabaseFile.getParentFile().mkdir();
 		}
 
@@ -27,7 +27,8 @@ public class SQLite {
 			e.printStackTrace();
 		}
 	}
-	//XXX Fix this
+
+	// XXX Fix this
 	public SQLite(String host, String username, String password) {
 		DatabaseURL = "jdbc:mysql://" + host + "/";
 
@@ -115,7 +116,7 @@ public class SQLite {
 
 	public String resultToString(ResultSet result, String data) {
 		try {
-			if(result.next()) {
+			if (result.next()) {
 				return result.getString(data);
 			} else {
 				return null;

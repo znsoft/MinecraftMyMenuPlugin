@@ -23,13 +23,14 @@ public class Main extends JavaPlugin {
 	public SQLite sqlite;
 	public IconMenu menu;
 	public HashMap<Player, СостояниеИгрока> состояниеИгрока = new HashMap<Player, СостояниеИгрока>();
+	public EvntPlay ОбработчикСобытий;
 
 	public void onEnable() {
 		File file = new File(getDataFolder(), "znmine.db");
 		sqlite = new SQLite(file);
 		sqlite.open();
 		final Main m = this;
-		EvntPlay ОбработчикСобытий = new EvntPlay(this);
+		ОбработчикСобытий = new EvntPlay(this);
 		sqlite.execute("create table if not exists Players ( playername primary key , op , privileges , money , ip , chatlog , commands , level );");
 		sqlite.execute("create table if not exists PlayerMenu ( playername , command , name , icon , position );");
 		menu = new IconMenu("Player Menu",
@@ -80,9 +81,9 @@ public class Main extends JavaPlugin {
 		String command = cmd.getName().toLowerCase();
 		if (command.equalsIgnoreCase("mymenu")
 				|| command.equalsIgnoreCase("менюшка")
-			|| command.equalsIgnoreCase("меню")) { // If the player typed
-															// /basic then do
-															// the following...
+				|| command.equalsIgnoreCase("меню")) { // If the player typed
+														// /basic then do
+														// the following...
 			if (args.length == 0)
 				return false;
 			if (args.length > 1
@@ -93,6 +94,9 @@ public class Main extends JavaPlugin {
 					s = s + ' ' + args[i];
 				СИ.ДобавитьЭлементМеню(args[1], s);
 				ДобавитьМенювИБД(args[1], p, s);
+				СостояниеИгрока ИгрокСостояние = состояниеИгрока.get(p);
+				ItemStack Меню = ИгрокСостояние.ВещьМеню;
+				ОбработчикСобытий.ДобавитьМенюВИнвентарь(p, Меню);
 				sender.sendMessage("Команда добавлена к вам в меню");
 			}
 
