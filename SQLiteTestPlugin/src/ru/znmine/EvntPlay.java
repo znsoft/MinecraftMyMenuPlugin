@@ -16,7 +16,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.droppages.Skepter.SQL.SQLite;
@@ -42,10 +41,10 @@ public class EvntPlay implements Listener {
 		Double Рублей = 0.0;//ЗагрузитьБалансИгрока(p);
 		СостояниеИгрока ИгрокСостояние = (new СостояниеИгрока("Меню игры "
 				+ p.getName(),
-				"Для добавления пунктов используйте команду /mymenu add команда1 ; команда2 "))
+				"Для добавления пунктов меню","используйте команду","/mymenu add команда1 ; команда2 "))
 				.УстановитьРубли(Рублей);
 		if (ЗагрузитьМенюИгрока(p, ИгрокСостояние))
-			ДобавитьМенюВИнвентарь(p, ИгрокСостояние.ВещьМеню);
+			ИгрокСостояние.ДобавитьМенюВИнвентарь(p);
 		состояниеИгрока.put(p, ИгрокСостояние);
 	}
 
@@ -65,7 +64,7 @@ public class EvntPlay implements Listener {
 		final Player p = e.getPlayer();
 		СостояниеИгрока ИгрокСостояние = состояниеИгрока.get(p);
 		if (!ИгрокСостояние.МенюИгрока.isEmpty())
-			ДобавитьМенюВИнвентарь(p, ИгрокСостояние.ВещьМеню);
+			ИгрокСостояние.ДобавитьМенюВИнвентарь(p);
 
 	}
 
@@ -79,7 +78,7 @@ public class EvntPlay implements Listener {
 			while (rs.next()) {
 				ИгрокСостояние.ДобавитьЭлементМеню(rs.getString(1),
 						rs.getString(1));
-				ЕстьМеню = true; // не нашел у ResultSet метода, чтоб узнать
+				ЕстьМеню = true; //  ResultSet метода, чтоб узнать
 									// пустой он или нет, пришлось городить
 									// костыль
 			}
@@ -100,13 +99,6 @@ public class EvntPlay implements Listener {
 		}
 	}
 
-	public void ДобавитьМенюВИнвентарь(Player p, ItemStack вещьМеню) {
-		PlayerInventory pin = p.getInventory();
-		if (pin.contains(вещьМеню))
-			pin.remove(вещьМеню);
-		pin.setHeldItemSlot(1);
-		pin.setItem(9, вещьМеню); // TODO Auto-generated method stub
-	}
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {

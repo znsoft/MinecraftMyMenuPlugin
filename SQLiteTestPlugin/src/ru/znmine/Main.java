@@ -73,7 +73,7 @@ public class Main extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("znmine:This command can only be run by a player.");
+			sender.sendMessage("This command can only be run by a player.");
 			return false;
 		}
 		Player p = (Player) sender;
@@ -86,34 +86,48 @@ public class Main extends JavaPlugin {
 														// the following...
 			if (args.length == 0)
 				return false;
-			if (args.length > 1
-					&& (args[0].equalsIgnoreCase("add") || args[0]
-							.toLowerCase().equalsIgnoreCase("добавить"))) {
-				String s = args[1];
-				for (int i = 2; i <= args.length - 1; i++)
-					s = s + ' ' + args[i];
-				СИ.ДобавитьЭлементМеню(args[1], s);
-				ДобавитьМенювИБД(args[1], p, s);
-				СостояниеИгрока ИгрокСостояние = состояниеИгрока.get(p);
-				ItemStack Меню = ИгрокСостояние.ВещьМеню;
-				ОбработчикСобытий.ДобавитьМенюВИнвентарь(p, Меню);
-				sender.sendMessage("Команда добавлена к вам в меню");
-			}
-
-			if (args[0].equalsIgnoreCase("remove")
-					|| args[0].toLowerCase().equalsIgnoreCase("удалить")) {
-				if (args.length == 1) {
-					УдалитьПоследнийИзИБД(p, СИ);
-					СИ.УдалитьПоследнийЭлементМеню();
-					sender.sendMessage("Последний элемент меню удален");
-				}
-				if (args.length > 1) {
-				}
-			}
+			ДобавлениеУдалениеКоманд(sender, args, p, СИ);
 
 			return true;
 		}
 		return false;
+	}
+
+	private void ДобавлениеУдалениеКоманд(CommandSender sender, String[] args,
+			Player p, СостояниеИгрока СИ) {
+		if (args.length > 1
+				&& (args[0].equalsIgnoreCase("add") || args[0]
+						.toLowerCase().equalsIgnoreCase("добавить"))) {
+			ДобавлениеКоманды(sender, args, p, СИ);
+		}
+
+		if (args[0].equalsIgnoreCase("remove")
+				|| args[0].toLowerCase().equalsIgnoreCase("удалить")) {
+			if (args.length == 1) {
+				УдалениеКоманды(sender, p, СИ);
+			}
+			if (args.length > 1) {
+			}
+		}
+	}
+
+	private void УдалениеКоманды(CommandSender sender, Player p,
+			СостояниеИгрока СИ) {
+		УдалитьПоследнийИзИБД(p, СИ);
+		СИ.УдалитьПоследнийЭлементМеню();
+		if(СИ.МенюИгрока.size()==0)СИ.УдалитьМенюИзИнвентаря(p);
+		sender.sendMessage("Последний элемент меню удален");
+	}
+
+	private void ДобавлениеКоманды(CommandSender sender, String[] args,
+			Player p, СостояниеИгрока СИ) {
+		String s = args[1];
+		for (int i = 2; i <= args.length - 1; i++)
+			s = s + ' ' + args[i];
+		СИ.ДобавитьЭлементМеню(args[1], s);
+		ДобавитьМенювИБД(args[1], p, s);
+		СИ.ДобавитьМенюВИнвентарь(p);
+		sender.sendMessage("Команда добавлена к вам в меню");
 	}
 
 	private void УдалитьПоследнийИзИБД(Player p, СостояниеИгрока СИ) {
