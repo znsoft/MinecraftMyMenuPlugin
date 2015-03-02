@@ -2,7 +2,7 @@ name: znmine
 main: ru.znmine.Main
 author: Skepter&znsoft
 version: 1.0
-description: znmine srv 
+description: znmine menu plugin 
 commands:
     mymenu:
         description: Add or remove commands icon in player menu.
