@@ -1,7 +1,7 @@
 name: znmine
 main: ru.znmine.Main
 author: Skepter&znsoft
-version: 1.0
+version: 0.4
 description: znmine menu plugin 
 commands:
     mymenu:
