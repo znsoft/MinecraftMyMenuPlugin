@@ -10,11 +10,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -38,10 +41,10 @@ public class EvntPlay implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		Player p = event.getPlayer();
 		ИнициализироватьИгрокавИБД(p);
-		Double Рублей = 0.0;//ЗагрузитьБалансИгрока(p);
+		Double Рублей = 0.0;// ЗагрузитьБалансИгрока(p);
 		СостояниеИгрока ИгрокСостояние = (new СостояниеИгрока("Меню игры "
-				+ p.getName(),
-				"Для добавления пунктов меню","используйте команду","/mymenu add команда1 ; команда2 "))
+				+ p.getName(), "Для добавления пунктов меню",
+				"используйте команду", "/mymenu add команда1 ; команда2 "))
 				.УстановитьРубли(Рублей);
 		if (ЗагрузитьМенюИгрока(p, ИгрокСостояние))
 			ИгрокСостояние.ДобавитьМенюВИнвентарь(p);
@@ -78,7 +81,7 @@ public class EvntPlay implements Listener {
 			while (rs.next()) {
 				ИгрокСостояние.ДобавитьЭлементМеню(rs.getString(1),
 						rs.getString(1));
-				ЕстьМеню = true; //  ResultSet метода, чтоб узнать
+				ЕстьМеню = true; // ResultSet метода, чтоб узнать
 									// пустой он или нет, пришлось городить
 									// костыль
 			}
@@ -98,7 +101,6 @@ public class EvntPlay implements Listener {
 			// e.printStackTrace();
 		}
 	}
-
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
@@ -127,6 +129,16 @@ public class EvntPlay implements Listener {
 			}
 		}, 1);
 
+	}
+
+	@EventHandler
+	public void onEntityDamageEvent(EntityDamageEvent event) {
+		if (event.getCause() == DamageCause.VOID) {
+			event.setCancelled(true);
+			event.getEntity().teleport(
+					event.getEntity().getWorld().getSpawnLocation(),
+					TeleportCause.PLUGIN);
+		}
 	}
 
 }
