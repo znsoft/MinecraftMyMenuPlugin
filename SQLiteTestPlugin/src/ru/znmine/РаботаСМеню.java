@@ -44,7 +44,7 @@ public abstract class РаботаСМеню extends JavaPlugin {
 						return;
 					}
 				//	--------------------
-				if (p.isOp() && args.length > 2){
+				if ((p.isOp()||p.hasPermission("mymenu.admin")) && args.length > 2){
 					ДобавлениеКомандыИгрокуОтОператора(args, p);
 				sender.sendMessage("Команда добавлена игроку в меню");
 				}
