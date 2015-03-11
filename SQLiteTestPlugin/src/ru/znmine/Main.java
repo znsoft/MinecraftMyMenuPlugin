@@ -68,11 +68,18 @@ public class Main extends РаботаСМеню {
 		Player p = (Player) sender;
 		СостояниеИгрока СИ = состояниеИгрока.get(p);
 		String command = cmd.getName().toLowerCase();
+		
+		if(command.equalsIgnoreCase("bt")){
+			final Main m = this;
+			ПотокЛетающийБлок ЛетающийБлок = new ПотокЛетающийБлок(p.getLocation());
+			//Bukkit.getScheduler().scheduleSyncDelayedTask(m, ЛетающийБлок, 1);
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(m, ЛетающийБлок, 0, 1);
+		}
+			
+			
 		if (command.equalsIgnoreCase("mymenu")
 				|| command.equalsIgnoreCase("менюшка")
 				|| command.equalsIgnoreCase("меню")) { // If the player typed
-														// /basic then do
-														// the following...
 			if (args.length == 0)
 				return false;
 			ДобавлениеУдалениеКоманд(sender, args, p, СИ);
@@ -82,7 +89,6 @@ public class Main extends РаботаСМеню {
 		return false;
 	}
 
-	// /Summary
 
 
 }
