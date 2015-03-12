@@ -7,6 +7,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+//import org.bukkit.entity.Arrow;
+import org.bukkit.util.Vector;
 
 /**
  * @author znsoft
@@ -34,7 +36,7 @@ public class ПотокЛетающийБлок implements Runnable {
 	 */
 	@Override
 	public void run() {
-		double c = Math.cos((double)(Время++) / 10.0 );
+		double c = Math.cos((double)(Время++) / 15.0 );
 		double s = Math.sin((double)(Время++) / 10.0 );
 		Блок = Мир.getBlockAt(Положение);
 		if(Материал != null)Блок.setType(Материал);
@@ -42,6 +44,12 @@ public class ПотокЛетающийБлок implements Runnable {
 		Блок = Мир.getBlockAt(Положение);
 		Материал = Блок.getType();
 		Блок.setType(Material.SAND);
+		Vector Вектор = Положение.getDirection();//(new Vector()).getRandom();
+		
+		//Arrow Стрела = 
+				Мир.spawnArrow(Положение, Вектор , 0.6f , 13.0f);
+		//Стрела.eject()
+		//Мир.addEntity(Стрела);
 //		loc.setY(loc.getY() + 5);
 //	 loc.distance(o);
 //	b.setType(Material.SAND);
