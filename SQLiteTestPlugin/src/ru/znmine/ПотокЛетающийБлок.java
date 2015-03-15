@@ -28,7 +28,8 @@ public class ПотокЛетающийБлок implements Runnable {
 		this.Положение = Положение; //пока для чистоты эксперимента не клонирую класс, понадеюсь на то что сборщик мусора умненький и определит это как замыкание  
 		this.Время = 0;
 		this.Мир = Положение.getWorld();
-		this.Положение.add(0, 4, 0);
+		this.Положение.add(0, 3, 0);
+		//this.Положение.setY(y);
 	}
 
 	/* (non-Javadoc)
@@ -36,18 +37,22 @@ public class ПотокЛетающийБлок implements Runnable {
 	 */
 	@Override
 	public void run() {
-		double c = Math.cos((double)(Время++) / 15.0 );
-		double s = Math.sin((double)(Время++) / 10.0 );
+		double c = Math.cos((double)(Время++) / 55.0 );
+		double s = Math.sin((double)(Время++) / 50.0 );
 		Блок = Мир.getBlockAt(Положение);
-		if(Материал != null)Блок.setType(Материал);
-		Положение.add(s*2, 0, c*2);
+		if(Материал != null){Блок.setType(Материал);}
+		Положение.add(s/12.0, 0, c/12.0);
 		Блок = Мир.getBlockAt(Положение);
 		Материал = Блок.getType();
-		Блок.setType(Material.SAND);
+		//if()
+		
+			//Блок.setType(Material.SAND);
+		//Location testLoc = Положение.clone().add(2 * c, 5, 5 * s);
 		Vector Вектор = Положение.getDirection();//(new Vector()).getRandom();
+		//Вектор.angle(testLoc.toVector());
 		
 		//Arrow Стрела = 
-				Мир.spawnArrow(Положение, Вектор , 0.6f , 13.0f);
+				Мир.spawnArrow(Положение, Вектор , 1.6f , 13.0f);
 		//Стрела.eject()
 		//Мир.addEntity(Стрела);
 //		loc.setY(loc.getY() + 5);

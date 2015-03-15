@@ -15,4 +15,4 @@ commands:
         usage: /меню добавить команда с параметрами                
     bt:
         description: Добавление летающего блока над игроком
-        usage: /bt                        
+        usage: /bt
