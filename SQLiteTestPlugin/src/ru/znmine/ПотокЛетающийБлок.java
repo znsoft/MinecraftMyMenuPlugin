@@ -37,6 +37,9 @@ public class ПотокЛетающийБлок implements Runnable {
 	 */
 	@Override
 	public void run() {
+		
+		
+		
 		double c = Math.cos((double)(Время++) / 55.0 );
 		double s = Math.sin((double)(Время++) / 50.0 );
 		Блок = Мир.getBlockAt(Положение);
@@ -48,7 +51,8 @@ public class ПотокЛетающийБлок implements Runnable {
 		
 			//Блок.setType(Material.SAND);
 		//Location testLoc = Положение.clone().add(2 * c, 5, 5 * s);
-		Vector Вектор = Положение.getDirection();//(new Vector()).getRandom();
+		Vector Вектор = new Vector(0,1,0); //Положение.getDirection();//(
+		//Вектор.getEpsilon()
 		//Вектор.angle(testLoc.toVector());
 		
 		//Arrow Стрела = 
