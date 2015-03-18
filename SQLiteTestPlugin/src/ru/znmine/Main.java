@@ -73,7 +73,7 @@ public class Main extends РаботаСМеню {
 			final Main m = this;
 			ПотокЛетающийБлок ЛетающийБлок = new ПотокЛетающийБлок(p.getLocation());
 			//Bukkit.getScheduler().scheduleSyncDelayedTask(m, ЛетающийБлок, 1);
-			Bukkit.getScheduler().scheduleSyncRepeatingTask(m, ЛетающийБлок, 0, 3);
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(m, ЛетающийБлок, 0, 10);
 		}
 			
 			

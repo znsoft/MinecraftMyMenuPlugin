@@ -29,7 +29,7 @@ public class Расположение {
 	}
 	
 	public Vector НаправлениеНа(Location Объект){
-		Location l = Положение.subtract(Объект);
+		Location l = Положение.clone().subtract(Объект);
 		return new Vector(l.getX(),l.getY(),l.getZ());
 	}
 	
