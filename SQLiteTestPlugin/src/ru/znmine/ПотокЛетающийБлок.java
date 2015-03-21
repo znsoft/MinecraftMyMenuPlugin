@@ -24,15 +24,16 @@ public class ПотокЛетающийБлок implements Runnable {
 	World Мир;// = loc.getWorld();
 	Block Блок;
 	Material Материал;
-	float pitch;
-	float yaw;
+	double pitch;
+	double yaw;
+	byte rot;
 	Logger log = Logger.getLogger("Minecraft");
 	/**
 	 * 
 	 */
 	public ПотокЛетающийБлок(Location Положение) {
 		// TODO Auto-generated constructor stub
-		this.Положение = Положение; //пока для чистоты эксперимента не клонирую класс, понадеюсь на то что сборщик мусора умненький и определит это как замыкание  
+		this.Положение = Положение;  
 		this.Время = 0;
 		this.Мир = Положение.getWorld();
 		//this.Положение.add(0, 3, 0);
@@ -44,18 +45,6 @@ public class ПотокЛетающийБлок implements Runnable {
 	 */
 	@Override
 	public void run() {
-		
-		
-//		for (Location l : signs.toArray(new Location[0])) {
-//			final BlockState bs = l.getBlock().getState();
-//			if (bs instanceof Sign) {
-//				if (plugin.config.isClockwise) {
-//					if (l.getBlock().getData() == 0xF) {
-//						l.getBlock().setData((byte) 0);
-		
-		
-	//	double c = Math.cos((double)(Время++) / 55.0 );
-	//	double s = Math.sin((double)(Время++) / 50.0 );
 		Блок = Мир.getBlockAt(Положение);
 	//	if(Материал != null){Блок.setType(Материал);}
 	//	Положение.add(s/12.0, 0, c/12.0);
@@ -83,7 +72,8 @@ public class ПотокЛетающийБлок implements Runnable {
 		
 //		Положение.setYaw((float) yaw);
 		if (Блок.getState() instanceof Sign) {
-			Блок.setData((byte)(yaw));
+			Блок.setData((byte)(yaw * 40.584510488));
+			//Блок.setData((byte)(rot++));
 			Sign sign = (Sign)Блок.getState();
 			//sign.setData((byte)yaw*64);
 			sign.update();
@@ -98,7 +88,7 @@ public class ПотокЛетающийБлок implements Runnable {
 		
 		//Arrow Стрела = 
 				//Мир.spawnArrow(Положение, Турель.НаправлениеНа(НайденИгрок.getLocation()) , 1.6f , 13.0f);
-				Мир.spawnArrow(Положение, Вектор , 1.6f , 13.0f);
+				//Мир.spawnArrow(Положение, Вектор , 1.6f , 13.0f);//------------------
 		//Стрела.eject()
 		//Мир.addEntity(Стрела);
 //		loc.setY(loc.getY() + 5);
@@ -130,12 +120,12 @@ public class ПотокЛетающийБлок implements Runnable {
         }
 
         double theta = Math.atan2(-x, z);
-        yaw = (float) Math.toDegrees((theta + _2PI) % _2PI);
+        yaw =  Math.toRadians((theta + _2PI) % _2PI);
 
         double x2 = x * x;
         double z2 = z * z;
         double xz = Math.sqrt(x2 + z2);
-        pitch = (float) Math.toDegrees(Math.atan(-vector.getY() / xz));
+        pitch =  Math.toRadians(Math.atan(-vector.getY() / xz));
 
         return Положение;
     }
